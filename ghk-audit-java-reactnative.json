@@ -1,0 +1,152 @@
+{
+  "version": "1.0",
+  "generatedAt": "2026-09-16T14:23:27.717Z",
+  "createdBy": "gherkin-ai-cli",
+  "artifacts": [
+    {
+      "filePath": "ADR-001-architecture-decisions.md",
+      "type": "other",
+      "checksum": "ea9131986a897d5cccb6132af08f0cd841103f4a1951d6f0259194b4074c77a3"
+    },
+    {
+      "filePath": "openapi.json",
+      "type": "openapi",
+      "checksum": "364ef0f1273ea39654cc664820d4bb7b523237e8c1cc54657729211f8aba564f"
+    },
+    {
+      "filePath": "asyncapi.json",
+      "type": "contract",
+      "checksum": "9e7876bfc6cfccfc150d05e0009b810491b306962ff78b4db23f6e78d9d7f349"
+    },
+    {
+      "filePath": "pom.xml",
+      "type": "config",
+      "checksum": "fd9dd2323eecacbaa4a59e9692aa8395e8f9962dfa75c0d712b07f2f34dc79b0"
+    },
+    {
+      "filePath": "fixtures.ts",
+      "type": "fixture",
+      "checksum": "5fe78f290924f57f50f7cc50a702fc6a587aed9188fd79eee865c47407c1ca24"
+    },
+    {
+      "filePath": "seed.sql",
+      "type": "fixture",
+      "checksum": "8ba76b3a82c0b393017c3430227bd1805d3586ed757239fdc90cc0372e97efd1"
+    },
+    {
+      "filePath": "TransaccinReactivaconSpringWebFluxyReactNativeStepDefinitions.java",
+      "type": "test",
+      "checksum": "5254b6c664c19618905ccaf2afc9c3ea93b1da99e3edd6e0e9683939877ffcde"
+    },
+    {
+      "filePath": "infrastructure/outbox/OutboxMessage.java",
+      "type": "test",
+      "checksum": "9f0d15e2745d2ddba7d049fc6876e2524be706c630be46f8081bb0ef6cdff8e5"
+    },
+    {
+      "filePath": "infrastructure/outbox/OutboxRepository.java",
+      "type": "test",
+      "checksum": "14f4cb8068255d833af0032499c5ba919030ba9c64ceb951cb6ffc5f176784f4"
+    },
+    {
+      "filePath": "infrastructure/outbox/OutboxService.java",
+      "type": "test",
+      "checksum": "f45d7a4d24a8ea8ba011859139bf3713227536a9b65647c9f6c786bc866e2000"
+    },
+    {
+      "filePath": "infrastructure/outbox/IMessageBrokerPublisher.java",
+      "type": "test",
+      "checksum": "251eeb06fce09cf0af68a37beb55352a8c7a1933ee7a5d148026dcff026f761b"
+    },
+    {
+      "filePath": "infrastructure/outbox/OutboxPublisher.java",
+      "type": "test",
+      "checksum": "3d10d3561fd1eb70801291c128c90f3b242ec54dd3c29451e542b53ef1d35d6a"
+    },
+    {
+      "filePath": "application/sagas/PaymentSagaContract.java",
+      "type": "test",
+      "checksum": "ad80e7b81575720a88fd4b3a5392f665ee7e51c8436c1d16120dc5018dc0fd39"
+    },
+    {
+      "filePath": "application/sagas/SagaInstance.java",
+      "type": "test",
+      "checksum": "b891d31089e7ec087dfce9b9256caab68cb5f35f2913f3d5ac94e176d2c2cb25"
+    },
+    {
+      "filePath": "application/sagas/SagaInstanceRepository.java",
+      "type": "test",
+      "checksum": "4c201df64e5c445aabfd08625c3a48f8e5a1cd9569fafcf64130d42a7579ce97"
+    },
+    {
+      "filePath": "application/sagas/PaymentSagaOrchestrator.java",
+      "type": "test",
+      "checksum": "2fcc1085620bf0b166e377062be28abfd6b46e589de043d39fd1c5d956a175b9"
+    },
+    {
+      "filePath": "infrastructure/idempotency/IdempotencyKeyRecord.java",
+      "type": "test",
+      "checksum": "395654dc0e4281f3275efbcec9aa21eea7a2a9f0d30b81d717e621882c5b1012"
+    },
+    {
+      "filePath": "infrastructure/idempotency/IdempotencyKeyRepository.java",
+      "type": "test",
+      "checksum": "79d5a31a3c213a86994fc8eacd4221824baad6ccb64b7ab0201b4127fc2d7cf2"
+    },
+    {
+      "filePath": "infrastructure/idempotency/IdempotencyFilter.java",
+      "type": "test",
+      "checksum": "40b37b1d755e186cf531a45fb1b545698bc372530f058dee4c4f05c890dbc4eb"
+    },
+    {
+      "filePath": "infrastructure/telemetry/OpenTelemetryConfig.java",
+      "type": "test",
+      "checksum": "de55485453c4f6a49202bc4f8546aa7ce954aefdeb7e519b0822a850990a58a7"
+    },
+    {
+      "filePath": "application/cqrs/PaymentCQRS.java",
+      "type": "test",
+      "checksum": "e98c0e7a55ff2ce9ed57f1d61c6e1287ca3e24154965cb82e8958aaae8dcce42"
+    },
+    {
+      "filePath": "docker-compose.yml",
+      "type": "config",
+      "checksum": "635f3cab0dfc52245643c8a582cfeb58b22cf7dcbd08076f653819d65f2f042e"
+    },
+    {
+      "filePath": ".env.example",
+      "type": "config",
+      "checksum": "c69aada954aec4a38c4b5d4594b2b7d03cf11e6879a35e8eb8c37d232f30a865"
+    },
+    {
+      "filePath": "infrastructure/lib/transactional-system-java-reactnative-stack.ts",
+      "type": "config",
+      "checksum": "1cb83315491ee56aa445c6b98883c4b060c34ebb7aff3e644107cb2a482159ad"
+    },
+    {
+      "filePath": "infrastructure/cdk.json",
+      "type": "config",
+      "checksum": "ac9ef31d48169bf431744df0f6482f397411f60fd9d88c4a4890e5a41342913e"
+    },
+    {
+      "filePath": "infrastructure/package.json",
+      "type": "config",
+      "checksum": "43fdfccc85f129fe8ea43640a31ff8c9f557d031dada2569db4745908819df9f"
+    },
+    {
+      "filePath": "prompts/domain-agent.md",
+      "type": "prompt",
+      "checksum": "2c888178e3ed2418eb8224b6bce875fd65c60d531dd1817fc5896d166c913665"
+    },
+    {
+      "filePath": "prompts/backend-agent.md",
+      "type": "prompt",
+      "checksum": "abc68ee0f7b1e31eabead259e2ec56b7b69bc94d9a09c1a255ea109e0bc17165"
+    },
+    {
+      "filePath": "prompts/qa-agent.md",
+      "type": "prompt",
+      "checksum": "0fa605c4d93943a44e1bd7e29a26f715f4d49334cf14f241ecc5dc05b66fbaf7"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "asyncapi": "2.6.0",
+  "info": {
+    "title": "Transacción Reactiva con Spring WebFlux y React Native AsyncAPI Specification",
+    "version": "1.0.0",
+    "description": "Auto-generated AsyncAPI events for Transacción Reactiva con Spring WebFlux y React Native from Gherkin feature spec."
+  },
+  "defaultContentType": "application/json",
+  "channels": {
+    "transaccinreactivaconspringwebfluxyreactnative/events/emiteflujoserversenteventfluxconsumidoporusequeryenreactnatievent": {
+      "bindings": {
+        "rabbitmq": {
+          "is": "routingKey",
+          "queue": {
+            "name": "transaccinreactivaconspringwebfluxyreactnative.emiteflujoserversenteventfluxconsumidoporusequeryenreactnatievent.queue",
+            "durable": true,
+            "exclusive": false,
+            "autoDelete": false
+          },
+          "bindingVersion": "0.2.0"
+        },
+        "kafka": {
+          "topic": "transaccinreactivaconspringwebfluxyreactnative.emiteflujoserversenteventfluxconsumidoporusequeryenreactnatievent",
+          "partitions": 3,
+          "replicas": 2,
+          "bindingVersion": "0.3.0"
+        }
+      },
+      "publish": {
+        "summary": "Publish EmiteFlujoServerSentEventFluxConsumidoPorUseQueryEnReactNatiEvent event",
+        "message": {
+          "name": "EmiteFlujoServerSentEventFluxConsumidoPorUseQueryEnReactNatiEvent",
+          "correlationId": {
+            "description": "Correlation ID set in the header",
+            "location": "$message.header#/correlationId"
+          },
+          "headers": {
+            "type": "object",
+            "properties": {
+              "correlationId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "Correlation ID for distributed tracing"
+              },
+              "causationId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "ID of the event/command that caused this event"
+              },
+              "schemaVersion": {
+                "type": "string",
+                "default": "1.0"
+              },
+              "retryCount": {
+                "type": "integer",
+                "default": 0
+              },
+              "dlqReason": {
+                "type": "string",
+                "description": "Reason for moving to DLQ (if applicable)"
+              }
+            },
+            "required": [
+              "correlationId",
+              "schemaVersion"
+            ]
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "eventId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "occurredOn": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "eventType": {
+                "type": "string",
+                "enum": [
+                  "EmiteFlujoServerSentEventFluxConsumidoPorUseQueryEnReactNatiEvent"
+                ]
+              },
+              "payload": {
+                "type": "object",
+                "properties": {},
+                "required": []
+              }
+            },
+            "required": [
+              "eventId",
+              "occurredOn",
+              "eventType",
+              "payload"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

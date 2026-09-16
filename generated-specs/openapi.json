@@ -1,0 +1,61 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Transacción Reactiva con Spring WebFlux y React Native API Specification",
+    "version": "1.0.0",
+    "description": "Auto-generated OpenAPI specification for Transacción Reactiva con Spring WebFlux y React Native from Gherkin feature spec."
+  },
+  "paths": {
+    "/api/v1/transacci-n-reactiva-con-spring-webflux-y-react-native": {
+      "post": {
+        "summary": "POST /api/v1/transacci-n-reactiva-con-spring-webflux-y-react-native",
+        "operationId": "unknownTransaccinReactivaconSpringWebFluxyReactNative",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "payload": {
+                    "type": "object",
+                    "properties": {},
+                    "required": []
+                  }
+                },
+                "required": [
+                  "requestId",
+                  "timestamp",
+                  "payload"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

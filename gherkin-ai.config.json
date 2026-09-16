@@ -1,0 +1,28 @@
+{
+  "projectName": "transactional-system-java-reactnative",
+  "architecture": "monolith",
+  "stack": {
+    "language": "java",
+    "framework": "spring-boot",
+    "orm": "hibernate",
+    "database": "mysql",
+    "validation": "jakarta-validation",
+    "auth": "jwt-bcrypt",
+    "messaging": "none",
+    "testing": "junit"
+  },
+  "frontendStack": {
+    "framework": "react-native",
+    "language": "javascript",
+    "bundler": "vite",
+    "unitTesting": "vitest",
+    "e2eTesting": "cypress"
+  },
+  "rules": {
+    "bcryptCostFactor": 12,
+    "jwtTtlSeconds": 3600,
+    "strictLayerBoundaries": true,
+    "coverageTarget": 85
+  },
+  "outputDir": "./generated-specs"
+}
