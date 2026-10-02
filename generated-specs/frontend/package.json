@@ -1,0 +1,33 @@
+{
+  "name": "transaccion-reactiva-con-spring-web-flux-y-react-native-mobile",
+  "private": true,
+  "version": "0.1.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "build": "tsc --noEmit",
+    "test": "jest --ci"
+  },
+  "dependencies": {
+    "expo": "~57.0.26",
+    "react": "19.2.3",
+    "react-native": "0.86.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@testing-library/react-native": "^13.3.3",
+    "babel-preset-expo": "~57.0.13",
+    "@types/jest": "^29.5.14",
+    "@types/react": "~19.2.18",
+    "jest": "~29.7.0",
+    "jest-expo": "~57.0.5",
+    "react-test-renderer": "19.2.3",
+    "typescript": "~6.0.0"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "testTimeout": 60000
+  }
+}

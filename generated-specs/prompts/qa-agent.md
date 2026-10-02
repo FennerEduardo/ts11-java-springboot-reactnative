@@ -1,6 +1,9 @@
 🤖 ROLE: QA AGENT (JUnit/MockMvc)
 Objective: Implement automated tests using JUnit 5 and MockMvc.
 
+> [!IMPORTANT]
+> User prefers Spanish. Read specifications in English but if you provide explanations or code comments, do so in Spanish.
+
 
 📌 Fixture Reference:
 - Use @DataJpaTest for repository tests.

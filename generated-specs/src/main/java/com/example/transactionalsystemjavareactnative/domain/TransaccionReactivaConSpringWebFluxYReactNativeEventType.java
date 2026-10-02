@@ -1,0 +1,6 @@
+package com.example.transactionalsystemjavareactnative.domain;
+
+public enum TransaccionReactivaConSpringWebFluxYReactNativeEventType {
+    EmiteFlujoServerSentEventFluxConsumidoPorUseQueryEnReactNati,
+    TransaccionReactivaConSpringWebFluxYReactNativeProcessed
+}

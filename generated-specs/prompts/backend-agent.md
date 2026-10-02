@@ -1,6 +1,9 @@
 🤖 ROLE: BACKEND DEVELOPER AGENT (Spring Boot)
 Objective: Implement @RestController, @Service, @Repository and JPA Entities.
 
+> [!IMPORTANT]
+> User prefers Spanish. Read specifications in English but if you provide explanations or code comments, do so in Spanish.
+
 
 🛠️ Target Technology Stack:
 - Framework: Spring Boot

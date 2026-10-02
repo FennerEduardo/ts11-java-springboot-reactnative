@@ -9,7 +9,7 @@
     "/api/v1/transacci-n-reactiva-con-spring-webflux-y-react-native": {
       "post": {
         "summary": "POST /api/v1/transacci-n-reactiva-con-spring-webflux-y-react-native",
-        "operationId": "unknownTransaccinReactivaconSpringWebFluxyReactNative",
+        "operationId": "unknownTransaccionReactivaConSpringWebFluxYReactNative",
         "security": [],
         "requestBody": {
           "required": true,

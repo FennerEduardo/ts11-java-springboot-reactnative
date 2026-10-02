@@ -7,12 +7,12 @@
   },
   "defaultContentType": "application/json",
   "channels": {
-    "transaccinreactivaconspringwebfluxyreactnative/events/emiteflujoserversenteventfluxconsumidoporusequeryenreactnatievent": {
+    "transaccionreactivaconspringwebfluxyreactnative/events/emiteflujoserversenteventfluxconsumidoporusequeryenreactnatievent": {
       "bindings": {
         "rabbitmq": {
           "is": "routingKey",
           "queue": {
-            "name": "transaccinreactivaconspringwebfluxyreactnative.emiteflujoserversenteventfluxconsumidoporusequeryenreactnatievent.queue",
+            "name": "transaccionreactivaconspringwebfluxyreactnative.emiteflujoserversenteventfluxconsumidoporusequeryenreactnatievent.queue",
             "durable": true,
             "exclusive": false,
             "autoDelete": false
@@ -20,7 +20,7 @@
           "bindingVersion": "0.2.0"
         },
         "kafka": {
-          "topic": "transaccinreactivaconspringwebfluxyreactnative.emiteflujoserversenteventfluxconsumidoporusequeryenreactnatievent",
+          "topic": "transaccionreactivaconspringwebfluxyreactnative.emiteflujoserversenteventfluxconsumidoporusequeryenreactnatievent",
           "partitions": 3,
           "replicas": 2,
           "bindingVersion": "0.3.0"
