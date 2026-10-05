@@ -16,3 +16,8 @@ coverage/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Build output
+target/
+build/
+.gradle/

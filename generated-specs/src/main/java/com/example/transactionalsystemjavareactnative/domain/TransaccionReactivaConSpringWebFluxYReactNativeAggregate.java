@@ -21,6 +21,14 @@ public class TransaccionReactivaConSpringWebFluxYReactNativeAggregate {
         this.id = id;
     }
 
+    /** Rebuilds an aggregate from persisted state; no events are recorded. */
+    public static TransaccionReactivaConSpringWebFluxYReactNativeAggregate restore(String id, TransaccionReactivaConSpringWebFluxYReactNativeState state, long version) {
+        var aggregate = new TransaccionReactivaConSpringWebFluxYReactNativeAggregate(id);
+        aggregate.state = state;
+        aggregate.version = version;
+        return aggregate;
+    }
+
     public String getId() { return id; }
     public TransaccionReactivaConSpringWebFluxYReactNativeState getState() { return state; }
     public long getVersion() { return version; }

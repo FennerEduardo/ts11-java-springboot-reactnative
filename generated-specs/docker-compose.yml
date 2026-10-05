@@ -3,7 +3,7 @@ version: '3.8'
 services:
   # Host Environment SDK Isolation Sandbox
   app:
-    image: eclipse-temurin:21-jdk-alpine
+    image: maven:3.9-eclipse-temurin-17
     container_name: transactional-system-java-reactnative-app
     volumes:
       - .:/app

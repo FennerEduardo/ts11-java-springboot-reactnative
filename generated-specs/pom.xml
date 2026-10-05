@@ -18,6 +18,9 @@
     <java.version>17</java.version>
     <cucumber.version>7.20.1</cucumber.version>
     <opentelemetry.version>1.43.0</opentelemetry.version>
+    <!-- Runtime integration tests (tag "integration") need DATABASE_URL / AMQP_URL: mvn test -Pintegration -->
+    <test.groups></test.groups>
+    <test.excludedGroups>integration</test.excludedGroups>
   </properties>
 
   <dependencyManagement>
@@ -69,10 +72,19 @@
       <groupId>io.opentelemetry</groupId>
       <artifactId>opentelemetry-exporter-otlp</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.rabbitmq</groupId>
+      <artifactId>amqp-client</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-sdk-testing</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -108,6 +120,24 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <groups>${test.groups}</groups>
+          <excludedGroups>${test.excludedGroups}</excludedGroups>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>integration</id>
+      <properties>
+        <test.groups>integration</test.groups>
+        <test.excludedGroups></test.excludedGroups>
+      </properties>
+    </profile>
+  </profiles>
 </project>
