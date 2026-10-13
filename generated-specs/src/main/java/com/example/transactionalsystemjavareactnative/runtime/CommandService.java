@@ -17,24 +17,33 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.BiFunction;
 
 /**
  * Executes a command in one transaction: idempotency claim, aggregate load (FOR UPDATE), domain
  * logic, aggregate save and outbox insert. A domain error rolls back everything.
  */
 public class CommandService {
-    private static final String AGGREGATE_TYPE = "TransaccionReactivaConSpringWebFluxYReactNative";
+    /** Aggregate type used when a request does not name one. */
+    public static final String DEFAULT_AGGREGATE = "TransaccionReactivaConSpringWebFluxYReactNative";
     private static final ObjectMapper JSON = new ObjectMapper().findAndRegisterModules();
-    private static final Map<String, BiFunction<TransaccionReactivaConSpringWebFluxYReactNativeAggregate, TransaccionReactivaConSpringWebFluxYReactNativeCommand, TransaccionReactivaConSpringWebFluxYReactNativeDomainEvent>> COMMANDS = Map.of(
-        "process_transaccion_reactiva_con_spring_web_flux_y_react_native", (a, c) -> a.processTransaccionReactivaConSpringWebFluxYReactNative(c)
-    );
 
-    public record Request(String tenantId, String aggregateId, String command, Map<String, Object> payload, String idempotencyKey, String traceparent) {
+    /** aggregateType: the feature's aggregate (e.g. "TransaccionReactivaConSpringWebFluxYReactNative"); null means DEFAULT_AGGREGATE. */
+    public record Request(String tenantId, String aggregateId, String command, Map<String, Object> payload, String idempotencyKey, String traceparent, String aggregateType) {
+        public Request(String tenantId, String aggregateId, String command, Map<String, Object> payload, String idempotencyKey, String traceparent) {
+            this(tenantId, aggregateId, command, payload, idempotencyKey, traceparent, null);
+        }
+
         public Request(String tenantId, String aggregateId, String command) {
-            this(tenantId, aggregateId, command, Map.of(), null, null);
+            this(tenantId, aggregateId, command, Map.of(), null, null, null);
+        }
+
+        String type() {
+            return aggregateType == null || aggregateType.isBlank() ? DEFAULT_AGGREGATE : aggregateType;
         }
     }
+
+    /** The result of running a command on an aggregate: its new state and the recorded event. */
+    private record Applied(String state, long version, String eventType, long eventVersion, Object event) {}
 
     public record Result(String status, String aggregateId, String eventType, Long version) {}
 
@@ -89,39 +98,57 @@ public class CommandService {
                 return new Result("in-progress", req.aggregateId(), null, null);
             }
         }
-        TransaccionReactivaConSpringWebFluxYReactNativeAggregate aggregate;
+        String type = req.type();
+        String state = null;
+        long version = 0;
         try (PreparedStatement ps = conn.prepareStatement("SELECT state, version FROM " + s + ".ghk_aggregates WHERE tenant_id = ? AND aggregate_type = ? AND id = ? FOR UPDATE")) {
             ps.setString(1, req.tenantId());
-            ps.setString(2, AGGREGATE_TYPE);
+            ps.setString(2, type);
             ps.setString(3, req.aggregateId());
             try (ResultSet rs = ps.executeQuery()) {
-                aggregate = rs.next()
-                    ? TransaccionReactivaConSpringWebFluxYReactNativeAggregate.restore(req.aggregateId(), TransaccionReactivaConSpringWebFluxYReactNativeState.valueOf(rs.getString(1)), rs.getLong(2))
-                    : new TransaccionReactivaConSpringWebFluxYReactNativeAggregate(req.aggregateId());
+                if (rs.next()) {
+                    state = rs.getString(1);
+                    version = rs.getLong(2);
+                }
             }
         }
-        var handler = COMMANDS.get(req.command());
-        if (handler == null) throw new DomainValidationException("Unknown command " + req.command());
-        TransaccionReactivaConSpringWebFluxYReactNativeDomainEvent event = handler.apply(aggregate, new TransaccionReactivaConSpringWebFluxYReactNativeCommand(req.aggregateId(), req.payload() == null ? Map.of() : req.payload()));
+        Map<String, Object> payload = req.payload() == null ? Map.of() : req.payload();
+        Applied applied = switch (type) {
+            case "TransaccionReactivaConSpringWebFluxYReactNative" -> applyTransaccionReactivaConSpringWebFluxYReactNative(req.aggregateId(), state, version, req.command(), payload);
+            default -> throw new DomainValidationException("Unknown aggregate type " + type);
+        };
         update(conn, "INSERT INTO " + s + ".ghk_aggregates (tenant_id, aggregate_type, id, state, version) VALUES (?, ?, ?, ?, ?) "
             + "ON CONFLICT (tenant_id, aggregate_type, id) DO UPDATE SET state = EXCLUDED.state, version = EXCLUDED.version, updated_at = now()",
-            req.tenantId(), AGGREGATE_TYPE, req.aggregateId(), aggregate.getState().name(), aggregate.getVersion());
-        String eventType = event.type().name();
+            req.tenantId(), type, req.aggregateId(), applied.state(), applied.version());
         update(conn, "INSERT INTO " + s + ".ghk_outbox (id, tenant_id, aggregate_id, event_type, payload, traceparent) VALUES (?, ?, ?, ?, ?, ?)",
-            UUID.randomUUID().toString(), req.tenantId(), req.aggregateId(), eventType, writeJson(event), traceparent);
-        Result result = new Result("created", req.aggregateId(), eventType, event.version());
+            UUID.randomUUID().toString(), req.tenantId(), req.aggregateId(), applied.eventType(), writeJson(applied.event()), traceparent);
+        Result result = new Result("created", req.aggregateId(), applied.eventType(), applied.eventVersion());
         if (key != null) {
             update(conn, "UPDATE " + s + ".ghk_idempotency SET status = 'COMPLETED', response = ? WHERE tenant_id = ? AND key = ?", writeJson(result), req.tenantId(), key);
         }
         return result;
     }
 
+    private static Applied applyTransaccionReactivaConSpringWebFluxYReactNative(String id, String state, long version, String command, Map<String, Object> payload) {
+        TransaccionReactivaConSpringWebFluxYReactNativeAggregate aggregate = state == null ? new TransaccionReactivaConSpringWebFluxYReactNativeAggregate(id) : TransaccionReactivaConSpringWebFluxYReactNativeAggregate.restore(id, TransaccionReactivaConSpringWebFluxYReactNativeState.valueOf(state), version);
+        TransaccionReactivaConSpringWebFluxYReactNativeCommand cmd = new TransaccionReactivaConSpringWebFluxYReactNativeCommand(id, payload);
+        TransaccionReactivaConSpringWebFluxYReactNativeDomainEvent event = switch (command) {
+            case "process_transaccion_reactiva_con_spring_web_flux_y_react_native" -> aggregate.processTransaccionReactivaConSpringWebFluxYReactNative(cmd);
+            default -> throw new DomainValidationException("Unknown command " + command);
+        };
+        return new Applied(aggregate.getState().name(), aggregate.getVersion(), event.type().name(), event.version(), event);
+    }
+
     /** The aggregate as tenantId sees it (empty for other tenants' aggregates). */
     public Optional<Snapshot> load(String tenantId, String aggregateId) throws SQLException {
+        return load(tenantId, aggregateId, DEFAULT_AGGREGATE);
+    }
+
+    public Optional<Snapshot> load(String tenantId, String aggregateId, String aggregateType) throws SQLException {
         try (Connection conn = connections.open();
              PreparedStatement ps = conn.prepareStatement("SELECT state, version FROM " + s + ".ghk_aggregates WHERE tenant_id = ? AND aggregate_type = ? AND id = ?")) {
             ps.setString(1, tenantId);
-            ps.setString(2, AGGREGATE_TYPE);
+            ps.setString(2, aggregateType);
             ps.setString(3, aggregateId);
             try (ResultSet rs = ps.executeQuery()) {
                 return rs.next() ? Optional.of(new Snapshot(rs.getString(1), rs.getLong(2))) : Optional.empty();

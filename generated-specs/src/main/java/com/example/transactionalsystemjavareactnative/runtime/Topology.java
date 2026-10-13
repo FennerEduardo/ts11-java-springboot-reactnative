@@ -6,7 +6,7 @@ import java.util.Map;
 
 /** Topic exchange -> consumer queue, which dead-letters rejected messages to a fanout DLX -> DLQ. */
 public record Topology(String exchange, String queue, String dlx, String dlq) {
-    public static final Topology DEFAULT = new Topology("transaccion-reactiva-con-spring-web-flux-y-react-native.events", "transaccion-reactiva-con-spring-web-flux-y-react-native.consumer", "transaccion-reactiva-con-spring-web-flux-y-react-native.dlx", "transaccion-reactiva-con-spring-web-flux-y-react-native.dlq");
+    public static final Topology DEFAULT = new Topology("transactional-system-java-reactnative.events", "transactional-system-java-reactnative.consumer", "transactional-system-java-reactnative.dlx", "transactional-system-java-reactnative.dlq");
 
     public static Topology forPrefix(String prefix) {
         return new Topology(prefix + ".events", prefix + ".consumer", prefix + ".dlx", prefix + ".dlq");

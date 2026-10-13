@@ -1,5 +1,12 @@
+import { ScrollView } from 'react-native';
 import { TransaccionReactivaConSpringWebFluxYReactNativeScreen } from './src/TransaccionReactivaConSpringWebFluxYReactNativeScreen';
 
+const baseUrl = process.env.EXPO_PUBLIC_API_URL;
+
 export default function App() {
-  return <TransaccionReactivaConSpringWebFluxYReactNativeScreen baseUrl={process.env.EXPO_PUBLIC_API_URL} />;
+  return (
+    <ScrollView>
+      <TransaccionReactivaConSpringWebFluxYReactNativeScreen baseUrl={baseUrl} />
+    </ScrollView>
+  );
 }

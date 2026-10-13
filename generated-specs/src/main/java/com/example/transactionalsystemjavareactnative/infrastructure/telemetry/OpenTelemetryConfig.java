@@ -1,5 +1,6 @@
 package com.example.transactionalsystemjavareactnative.infrastructure.telemetry;
 
+import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.api.trace.propagation.W3CTraceContextPropagator;
@@ -18,6 +19,10 @@ public class OpenTelemetryConfig {
     @Value("${opentelemetry.otlp.endpoint:http://localhost:4317}")
     private String otlpEndpoint;
 
+    /**
+     * Registers an OTLP exporter as the global OpenTelemetry, unless one is already registered
+     * (the OpenTelemetry Java agent, or a test harness): then that one is used.
+     */
     @Bean
     public OpenTelemetry openTelemetry() {
         OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
@@ -28,10 +33,15 @@ public class OpenTelemetryConfig {
                 .addSpanProcessor(BatchSpanProcessor.builder(spanExporter).build())
                 .build();
 
-        return OpenTelemetrySdk.builder()
-                .setTracerProvider(tracerProvider)
-                .setPropagators(ContextPropagators.create(W3CTraceContextPropagator.getInstance()))
-                .buildAndRegisterGlobal();
+        try {
+            return OpenTelemetrySdk.builder()
+                    .setTracerProvider(tracerProvider)
+                    .setPropagators(ContextPropagators.create(W3CTraceContextPropagator.getInstance()))
+                    .buildAndRegisterGlobal();
+        } catch (IllegalStateException alreadyRegistered) {
+            tracerProvider.close();
+            return GlobalOpenTelemetry.get();
+        }
     }
 
     @Bean

@@ -9,10 +9,11 @@ services:
       - .:/app
     working_dir: /app
     environment:
-      - ENVIRONMENT=development
-      - DATABASE_URL=${DATABASE_URL:-mysql://dev_user:dev_password@mysql:5432/transactional-system-java-reactnative_db}
+      - SPRING_PROFILES_ACTIVE=dev
+      - SERVER_PORT=8080
+      - DATABASE_URL=${DATABASE_URL:-mysql://dev_user:dev_password@mysql:3306/transactional-system-java-reactnative_db}
     ports:
-      - "8000:8000"
+      - "8080:8080"
     depends_on:
       - mysql
 
