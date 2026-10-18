@@ -1,6 +1,5 @@
 package com.example.transactionalsystemjavareactnative.runtime;
 
-import com.rabbitmq.client.Channel;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -45,14 +44,15 @@ public class RuntimeConfiguration {
         return new CommandService(connections, "public");
     }
 
-    /** Publishes the outbox every 1000 ms when AMQP_URL is set. */
+    /** Publishes the outbox every 1000 ms when a broker is configured (Broker: GHK_BROKER, AMQP_URL, PUBSUB_*). */
     @Component
     public static class OutboxRelayWorker implements DisposableBean {
         private static final Logger LOG = LoggerFactory.getLogger(OutboxRelayWorker.class);
         private final ConnectionFactory connections;
         private final boolean enabled;
         private final String workerId = "transaccion-reactiva-con-spring-web-flux-y-react-native-" + UUID.randomUUID();
-        private com.rabbitmq.client.Connection amqp;
+        private Broker broker;
+        private EventPublisher publisher;
         private OutboxRelay relay;
         private boolean warned;
 
@@ -64,20 +64,17 @@ public class RuntimeConfiguration {
         @Scheduled(fixedDelay = 1000)
         public synchronized void publish() {
             if (!enabled) return;
-            String url = System.getenv("AMQP_URL");
-            if (url == null || url.isBlank()) {
-                if (!warned) LOG.warn("AMQP_URL is not set: outbox events are stored but not published.");
+            if (!Broker.configured()) {
+                if (!warned) LOG.warn("No event broker is configured (AMQP_URL, or GHK_BROKER=pubsub with PUBSUB_PROJECT_ID): outbox events are stored but not published.");
                 warned = true;
                 return;
             }
             try {
                 if (relay == null) {
-                    var factory = new com.rabbitmq.client.ConnectionFactory();
-                    factory.setUri(url);
-                    amqp = factory.newConnection();
-                    Channel channel = amqp.createChannel();
-                    Topology.DEFAULT.declare(channel);
-                    relay = new OutboxRelay(connections, channel, Topology.DEFAULT.exchange(), "public");
+                    broker = Broker.fromEnv();
+                    broker.declare(Topology.DEFAULT);
+                    publisher = broker.publisher(Topology.DEFAULT.exchange());
+                    relay = new OutboxRelay(connections, publisher, "public");
                 }
                 relay.publishBatch(workerId, 50);
             } catch (Exception e) {
@@ -88,8 +85,10 @@ public class RuntimeConfiguration {
 
         private void close() {
             relay = null;
-            try { if (amqp != null) amqp.close(); } catch (Exception ignored) { }
-            amqp = null;
+            try { if (publisher != null) publisher.close(); } catch (Exception ignored) { }
+            try { if (broker != null) broker.close(); } catch (Exception ignored) { }
+            publisher = null;
+            broker = null;
         }
 
         @Override

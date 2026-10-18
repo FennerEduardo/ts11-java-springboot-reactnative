@@ -1,7 +1,5 @@
 package com.example.transactionalsystemjavareactnative.runtime;
 
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.api.trace.StatusCode;
@@ -11,31 +9,27 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Publishes pending outbox rows. Rows are claimed with FOR UPDATE SKIP LOCKED and a lease, so
- * concurrent relays never publish the same row; publisher confirms guarantee delivery to the broker
- * before a row is marked published. Use one relay (and channel) per thread.
+ * concurrent relays never publish the same row; the publisher returns only once the broker has accepted
+ * the message (RabbitMQ confirms, Pub/Sub publish response), before a row is marked published.
+ * Use one relay (and publisher) per thread.
  */
 public class OutboxRelay {
     private final ConnectionFactory connections;
-    private final Channel channel;
-    private final String exchange;
+    private final EventPublisher publisher;
     private final String s;
     private final int leaseSeconds;
     private final int maxAttempts;
 
-    public OutboxRelay(ConnectionFactory connections, Channel channel, String exchange, String schema) throws java.io.IOException {
+    public OutboxRelay(ConnectionFactory connections, EventPublisher publisher, String schema) {
         this.connections = connections;
-        this.channel = channel;
-        this.exchange = exchange;
+        this.publisher = publisher;
         this.s = Schema.name(schema);
         this.leaseSeconds = 30;
         this.maxAttempts = 5;
-        channel.confirmSelect();
     }
 
     private record Claimed(String id, String tenantId, String eventType, String payload, String traceparent) {}
@@ -57,18 +51,12 @@ public class OutboxRelay {
         try (Connection conn = connections.open()) {
             for (Claimed row : batch) {
                 Context parent = Telemetry.contextFrom(row.traceparent());
-                Span span = Telemetry.tracer().spanBuilder(exchange + " publish").setParent(parent).setSpanKind(SpanKind.PRODUCER)
-                    .setAttribute("messaging.system", "rabbitmq").setAttribute("messaging.destination.name", exchange)
+                Span span = Telemetry.tracer().spanBuilder(publisher.destination() + " publish").setParent(parent).setSpanKind(SpanKind.PRODUCER)
+                    .setAttribute("messaging.system", publisher.system()).setAttribute("messaging.destination.name", publisher.destination())
                     .setAttribute("messaging.message.id", row.id()).setAttribute("tenant.id", row.tenantId()).startSpan();
                 try {
-                    Map<String, Object> headers = new HashMap<>();
-                    headers.put("tenant_id", row.tenantId());
                     String traceparent = Telemetry.traceparentOf(parent, span);
-                    if (traceparent != null) headers.put("traceparent", traceparent);
-                    AMQP.BasicProperties props = new AMQP.BasicProperties.Builder()
-                        .messageId(row.id()).deliveryMode(2).contentType("application/json").type(row.eventType()).headers(headers).build();
-                    channel.basicPublish(exchange, row.eventType(), props, row.payload().getBytes(StandardCharsets.UTF_8));
-                    channel.waitForConfirmsOrDie(10_000);
+                    publisher.publish(new BrokerMessage(row.id(), row.eventType(), row.tenantId(), traceparent, row.payload().getBytes(StandardCharsets.UTF_8)));
                     CommandService.update(conn, "UPDATE " + s + ".ghk_outbox SET published_at = now(), claimed_until = NULL WHERE id = ? AND claimed_by = ?", row.id(), workerId);
                     published++;
                 } catch (Exception e) {

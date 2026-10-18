@@ -1,8 +1,6 @@
 package com.example.transactionalsystemjavareactnative.runtime;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.GetResponse;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.api.trace.StatusCode;
@@ -12,7 +10,7 @@ import java.util.Map;
 /**
  * Idempotent consumer: the message id is recorded in ghk_inbox in the same transaction as the
  * handler, so redeliveries are acknowledged without running the handler twice. A handler error
- * rejects the message without requeue, so RabbitMQ dead-letters it to the DLQ.
+ * dead-letters the message (RabbitMQ DLX, Pub/Sub dead-letter topic): it is not redelivered.
  */
 public class InboxConsumer {
     public record Meta(String messageId, String tenantId, String eventType, Connection connection) {}
@@ -24,32 +22,30 @@ public class InboxConsumer {
 
     private static final ObjectMapper JSON = new ObjectMapper();
     private final ConnectionFactory connections;
-    private final Channel channel;
-    private final String queue;
+    private final EventSubscription subscription;
     private final String consumerName;
     private final Handler handler;
     private final String s;
 
-    public InboxConsumer(ConnectionFactory connections, Channel channel, String queue, String consumerName, Handler handler, String schema) {
+    public InboxConsumer(ConnectionFactory connections, EventSubscription subscription, String consumerName, Handler handler, String schema) {
         this.connections = connections;
-        this.channel = channel;
-        this.queue = queue;
+        this.subscription = subscription;
         this.consumerName = consumerName;
         this.handler = handler;
         this.s = Schema.name(schema);
     }
 
-    /** Processes messages until the queue stays empty for idleMillis; returns how many were processed. */
+    /** Processes messages until the source stays empty for idleMillis; returns how many were processed. */
     public int drain(long idleMillis) throws Exception {
         int processed = 0;
         long idleSince = System.currentTimeMillis();
         while (System.currentTimeMillis() - idleSince < idleMillis) {
-            GetResponse response = channel.basicGet(queue, false);
-            if (response == null) {
+            EventSubscription.Delivery delivery = subscription.poll();
+            if (delivery == null) {
                 Thread.sleep(50);
                 continue;
             }
-            process(response);
+            process(delivery);
             processed++;
             idleSince = System.currentTimeMillis();
         }
@@ -57,25 +53,20 @@ public class InboxConsumer {
     }
 
     @SuppressWarnings("unchecked")
-    private void process(GetResponse response) throws Exception {
-        var props = response.getProps();
-        Map<String, Object> headers = props.getHeaders() == null ? Map.of() : props.getHeaders();
-        Object traceparent = headers.get("traceparent");
-        Span span = Telemetry.tracer().spanBuilder(queue + " process")
-            .setParent(Telemetry.contextFrom(traceparent == null ? null : traceparent.toString())).setSpanKind(SpanKind.CONSUMER)
-            .setAttribute("messaging.system", "rabbitmq").setAttribute("messaging.destination.name", queue)
-            .setAttribute("messaging.message.id", String.valueOf(props.getMessageId())).startSpan();
-        long tag = response.getEnvelope().getDeliveryTag();
+    private void process(EventSubscription.Delivery delivery) throws Exception {
+        BrokerMessage message = delivery.message();
+        Span span = Telemetry.tracer().spanBuilder(subscription.source() + " process")
+            .setParent(Telemetry.contextFrom(message.traceparent())).setSpanKind(SpanKind.CONSUMER)
+            .setAttribute("messaging.system", subscription.system()).setAttribute("messaging.destination.name", subscription.source())
+            .setAttribute("messaging.message.id", String.valueOf(message.messageId())).startSpan();
         try (Connection conn = connections.open()) {
             conn.setAutoCommit(false);
             try {
-                if (CommandService.update(conn, "INSERT INTO " + s + ".ghk_inbox (consumer, message_id) VALUES (?, ?) ON CONFLICT DO NOTHING", consumerName, props.getMessageId()) == 1) {
-                    Object tenant = headers.get("tenant_id");
-                    handler.handle(JSON.readValue(response.getBody(), Map.class),
-                        new Meta(props.getMessageId(), tenant == null ? null : tenant.toString(), props.getType(), conn));
+                if (CommandService.update(conn, "INSERT INTO " + s + ".ghk_inbox (consumer, message_id) VALUES (?, ?) ON CONFLICT DO NOTHING", consumerName, message.messageId()) == 1) {
+                    handler.handle(JSON.readValue(message.body(), Map.class), new Meta(message.messageId(), message.tenantId(), message.eventType(), conn));
                 }
                 conn.commit();
-                channel.basicAck(tag, false);
+                delivery.ack().run();
             } catch (Exception e) {
                 conn.rollback();
                 throw e;
@@ -83,7 +74,7 @@ public class InboxConsumer {
         } catch (Exception e) {
             span.recordException(e);
             span.setStatus(StatusCode.ERROR);
-            channel.basicNack(tag, false, false);
+            delivery.deadLetter().run();
         } finally {
             span.end();
         }

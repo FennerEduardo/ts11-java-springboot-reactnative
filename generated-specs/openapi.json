@@ -6,9 +6,9 @@
     "description": "Service API of transactional-system-java-reactnative, merged from 1 feature contract(s) in contracts/."
   },
   "paths": {
-    "/api/v1/transacci-n-reactiva-con-spring-webflux-y-react-native": {
+    "/api/v1/transaccion-reactiva-con-spring-web-flux-y-react-native": {
       "post": {
-        "summary": "POST /api/v1/transacci-n-reactiva-con-spring-webflux-y-react-native",
+        "summary": "POST /api/v1/transaccion-reactiva-con-spring-web-flux-y-react-native",
         "operationId": "unknownTransaccionReactivaConSpringWebFluxYReactNative",
         "security": [],
         "requestBody": {

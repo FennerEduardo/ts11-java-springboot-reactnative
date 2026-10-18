@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.example.transactionalsystemjavareactnative.domain.DomainValidationException;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.GetResponse;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
@@ -25,57 +23,57 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-/** Runtime integration tests (docs/RUNTIME-KERNEL.md, IT1-IT7). Requires DATABASE_URL and AMQP_URL. */
+/**
+ * Runtime integration tests (docs/RUNTIME-KERNEL.md, IT1-IT7). Requires DATABASE_URL and the selected
+ * broker (GHK_BROKER: rabbitmq with AMQP_URL, or pubsub with PUBSUB_PROJECT_ID [+ PUBSUB_EMULATOR_HOST]).
+ */
 @Tag("integration")
 class RuntimeIntegrationTest {
     private static final String COMMAND = "process_transaccion_reactiva_con_spring_web_flux_y_react_native";
     private static final String EVENT = "EmiteFlujoServerSentEventFluxConsumidoPorUseQueryEnReactNati";
     private static final InMemorySpanExporter EXPORTER = InMemorySpanExporter.create();
     private static ConnectionFactory connections;
-    private static com.rabbitmq.client.Connection amqp;
+    private static Broker broker;
     private String schema;
     private Topology topology;
 
     @BeforeAll
     static void connect() throws Exception {
         String dbUrl = System.getenv("DATABASE_URL");
-        String amqpUrl = System.getenv("AMQP_URL");
-        if (dbUrl == null || amqpUrl == null) throw new IllegalStateException("Integration tests need DATABASE_URL and AMQP_URL (see docs/RUNTIME-KERNEL.md).");
+        if (dbUrl == null || !Broker.configured()) throw new IllegalStateException("Integration tests need DATABASE_URL and the broker variables (see docs/RUNTIME-KERNEL.md).");
         GlobalOpenTelemetry.resetForTest();
         OpenTelemetrySdk.builder().setTracerProvider(SdkTracerProvider.builder().addSpanProcessor(SimpleSpanProcessor.create(EXPORTER)).build()).buildAndRegisterGlobal();
         connections = ConnectionFactory.fromUrl(dbUrl);
-        var factory = new com.rabbitmq.client.ConnectionFactory();
-        factory.setUri(amqpUrl);
-        factory.setConnectionTimeout(30_000);
-        factory.setHandshakeTimeout(30_000);
-        // A busy CI host can delay the AMQP handshake: retry before failing the suite.
-        for (int attempt = 1; ; attempt++) {
-            try {
-                amqp = factory.newConnection();
-                break;
-            } catch (java.io.IOException | java.util.concurrent.TimeoutException e) {
-                if (attempt == 5) throw e;
-                Thread.sleep(2000L * attempt);
-            }
-        }
+        broker = Broker.fromEnv();
+    }
+
+    @AfterAll
+    static void disconnect() throws Exception {
+        if (broker != null) broker.close();
     }
 
     @BeforeEach
     void freshSchema() throws Exception {
         String uid = UUID.randomUUID().toString().replace("-", "").substring(0, 12);
         schema = "it_" + uid;
-        topology = Topology.forPrefix("it-" + uid);
+        // Brokers with fixed entities (Service Bus emulator) share one topology, emptied before each test.
+        topology = broker.dynamicTopology() ? Topology.forPrefix("it-" + uid) : Topology.forPrefix("it");
         Schema.migrate(connections, schema);
+        broker.declare(topology);
+        if (!broker.dynamicTopology()) {
+            receive(topology.queue(), 0);
+            receive(topology.dlq(), 0);
+        }
         EXPORTER.reset();
     }
 
@@ -96,18 +94,24 @@ class RuntimeIntegrationTest {
         }
     }
 
-    private static List<GetResponse> drainQueue(Channel channel, String queue) throws Exception {
-        List<GetResponse> out = new ArrayList<>();
-        for (GetResponse r = channel.basicGet(queue, true); r != null; r = channel.basicGet(queue, true)) out.add(r);
-        return out;
-    }
-
-    private static void waitFor(Callable<Boolean> check) throws Exception {
-        long deadline = System.currentTimeMillis() + 10_000;
-        while (!check.call()) {
-            if (System.currentTimeMillis() > deadline) throw new AssertionError("timed out waiting for condition");
-            Thread.sleep(50);
+    /** Receives and acknowledges messages until the expected number arrived and the source stays quiet for 500 ms (10 s at most). */
+    private List<BrokerMessage> receive(String source, int expected) throws Exception {
+        List<BrokerMessage> out = new ArrayList<>();
+        try (EventSubscription subscription = broker.subscribe(source, topology)) {
+            long deadline = System.currentTimeMillis() + 10_000;
+            long quietSince = System.currentTimeMillis();
+            while (System.currentTimeMillis() < deadline && (out.size() < expected || System.currentTimeMillis() - quietSince < 500)) {
+                EventSubscription.Delivery delivery = subscription.poll();
+                if (delivery == null) {
+                    Thread.sleep(50);
+                    continue;
+                }
+                out.add(delivery.message());
+                delivery.ack().run();
+                quietSince = System.currentTimeMillis();
+            }
         }
+        return out;
     }
 
     @Test
@@ -150,16 +154,16 @@ class RuntimeIntegrationTest {
     void it3ConcurrentRelaysPublishExactlyOnce() throws Exception {
         var service = new CommandService(connections, schema);
         for (int i = 0; i < 20; i++) service.handle(new CommandService.Request("t1", "agg-" + i, COMMAND));
-        Channel setup = amqp.createChannel();
-        topology.declare(setup);
         ExecutorService pool = Executors.newFixedThreadPool(2);
         List<Future<Integer>> totals = new ArrayList<>();
         for (String worker : List.of("relay-a", "relay-b")) {
             totals.add(pool.submit(() -> {
-                var relay = new OutboxRelay(connections, amqp.createChannel(), topology.exchange(), schema);
-                int total = 0;
-                for (int n = relay.publishBatch(worker, 3); n > 0; n = relay.publishBatch(worker, 3)) total += n;
-                return total;
+                try (EventPublisher publisher = broker.publisher(topology.exchange())) {
+                    var relay = new OutboxRelay(connections, publisher, schema);
+                    int total = 0;
+                    for (int n = relay.publishBatch(worker, 3); n > 0; n = relay.publishBatch(worker, 3)) total += n;
+                    return total;
+                }
             }));
         }
         int published = 0;
@@ -167,11 +171,11 @@ class RuntimeIntegrationTest {
         pool.shutdown();
         assertEquals(20, published);
         assertEquals(0, count("ghk_outbox", "published_at IS NULL"));
-        waitFor(() -> setup.queueDeclarePassive(topology.queue()).getMessageCount() == 20);
+        List<BrokerMessage> received = receive(topology.queue(), 20);
+        assertEquals(20, received.size());
         Set<String> ids = new HashSet<>();
-        for (GetResponse r : drainQueue(setup, topology.queue())) ids.add(r.getProps().getMessageId());
+        for (BrokerMessage m : received) ids.add(m.messageId());
         assertEquals(20, ids.size());
-        setup.close();
     }
 
     @Test
@@ -202,25 +206,23 @@ class RuntimeIntegrationTest {
 
     @Test
     void it6InboxDeduplicatesAndDeadLetters() throws Exception {
-        Channel channel = amqp.createChannel();
-        topology.declare(channel);
         List<String> handled = new ArrayList<>();
-        var consumer = new InboxConsumer(connections, channel, topology.queue(), "it-consumer", (event, meta) -> {
-            if (Boolean.TRUE.equals(event.get("poison"))) throw new IllegalStateException("cannot process");
-            handled.add(meta.messageId());
-        }, schema);
-        for (String[] m : new String[][] {{"m-1", "{\"ok\": true}"}, {"m-1", "{\"ok\": true}"}, {"m-poison", "{\"poison\": true}"}}) {
-            var props = new com.rabbitmq.client.AMQP.BasicProperties.Builder().messageId(m[0]).headers(Map.of("tenant_id", "t1")).build();
-            channel.basicPublish(topology.exchange(), "Test", props, m[1].getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        try (EventPublisher publisher = broker.publisher(topology.exchange());
+             EventSubscription subscription = broker.subscribe(topology.queue(), topology)) {
+            var consumer = new InboxConsumer(connections, subscription, "it-consumer", (event, meta) -> {
+                if (Boolean.TRUE.equals(event.get("poison"))) throw new IllegalStateException("cannot process");
+                handled.add(meta.messageId());
+            }, schema);
+            for (String[] m : new String[][] {{"m-1", "{\"ok\": true}"}, {"m-1", "{\"ok\": true}"}, {"m-poison", "{\"poison\": true}"}}) {
+                publisher.publish(new BrokerMessage(m[0], "Test", "t1", null, m[1].getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+            }
+            consumer.drain(1000);
         }
-        consumer.drain(1000);
         assertEquals(List.of("m-1"), handled);
         assertEquals(1, count("ghk_inbox", "consumer = ?", "it-consumer"));
-        waitFor(() -> channel.queueDeclarePassive(topology.dlq()).getMessageCount() == 1);
-        var dead = drainQueue(channel, topology.dlq());
+        List<BrokerMessage> dead = receive(topology.dlq(), 1);
         assertEquals(1, dead.size());
-        assertEquals("m-poison", dead.get(0).getProps().getMessageId());
-        channel.close();
+        assertEquals("m-poison", dead.get(0).messageId());
     }
 
     @Test
@@ -231,11 +233,13 @@ class RuntimeIntegrationTest {
             rs.next();
             assertTrue(rs.getString(1).contains("4bf92f3577b34da6a3ce929d0e0e4736"));
         }
-        Channel channel = amqp.createChannel();
-        topology.declare(channel);
-        assertEquals(1, new OutboxRelay(connections, channel, topology.exchange(), schema).publishBatch("relay", 10));
+        try (EventPublisher publisher = broker.publisher(topology.exchange())) {
+            assertEquals(1, new OutboxRelay(connections, publisher, schema).publishBatch("relay", 10));
+        }
         List<String> received = new ArrayList<>();
-        new InboxConsumer(connections, amqp.createChannel(), topology.queue(), "trace-consumer", (event, meta) -> received.add(meta.messageId()), schema).drain(1000);
+        try (EventSubscription subscription = broker.subscribe(topology.queue(), topology)) {
+            new InboxConsumer(connections, subscription, "trace-consumer", (event, meta) -> received.add(meta.messageId()), schema).drain(1000);
+        }
         assertEquals(1, received.size());
 
         SpanData command = null, producer = null, consumer = null;
@@ -249,6 +253,5 @@ class RuntimeIntegrationTest {
         assertEquals("4bf92f3577b34da6a3ce929d0e0e4736", producer.getTraceId());
         assertEquals("4bf92f3577b34da6a3ce929d0e0e4736", consumer.getTraceId());
         assertEquals(producer.getSpanId(), consumer.getParentSpanId());
-        channel.close();
     }
 }
