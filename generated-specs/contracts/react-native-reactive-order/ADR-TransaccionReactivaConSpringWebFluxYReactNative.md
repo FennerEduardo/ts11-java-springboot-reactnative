@@ -9,7 +9,7 @@ Project requiring structured implementation matching Gherkin specification.
 ## Decisions
 - **Architecture Style**: Monolith Architecture (MVC / Monolithic) (monolith)
 - **Primary Backend Language**: java
-- **Backend Framework**: spring-boot (Java 17/21/25 (Spring Boot 3.2+))
+- **Backend Framework**: spring-boot (Java 17/21/25 (Spring Boot 4.1))
 - **ORM / Persistence**: hibernate (org.hibernate.orm:hibernate-core:6.4.4.Final)
 - **Validation**: jakarta-validation (jakarta.validation:jakarta.validation-api:3.0.2)
 - **Authentication**: jwt-bcrypt (bcrypt cost factor 12, JWT TTL 3600s)

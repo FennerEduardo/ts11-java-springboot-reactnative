@@ -28,7 +28,7 @@ public class RuntimeConfiguration {
         URI uri = URI.create(url.replaceFirst("^postgres(ql)?://", "postgresql://"));
         String[] userInfo = uri.getRawUserInfo() == null ? new String[0] : uri.getRawUserInfo().split(":", 2);
         return DataSourceBuilder.create()
-            .url("jdbc:postgresql://" + uri.getHost() + ":" + (uri.getPort() > 0 ? uri.getPort() : 5432) + uri.getPath())
+            .url(ConnectionFactory.jdbcUrl(uri))
             .username(userInfo.length > 0 ? URLDecoder.decode(userInfo[0], StandardCharsets.UTF_8) : null)
             .password(userInfo.length > 1 ? URLDecoder.decode(userInfo[1], StandardCharsets.UTF_8) : null)
             .build();
@@ -72,7 +72,8 @@ public class RuntimeConfiguration {
             try {
                 if (relay == null) {
                     broker = Broker.fromEnv();
-                    broker.declare(Topology.DEFAULT);
+                    // GHK_DECLARE_TOPOLOGY=false when infrastructure as code owns the topology (least-privilege credentials).
+                    if (!"false".equals(System.getenv("GHK_DECLARE_TOPOLOGY"))) broker.declare(Topology.DEFAULT);
                     publisher = broker.publisher(Topology.DEFAULT.exchange());
                     relay = new OutboxRelay(connections, publisher, "public");
                 }
