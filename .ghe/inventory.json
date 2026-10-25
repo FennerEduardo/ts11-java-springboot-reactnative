@@ -1,0 +1,432 @@
+{
+  "version": "2",
+  "cliVersion": "3.2.1",
+  "features": {
+    "features/react_native_reactive_order.feature": {
+      "checksum": "07c9270d8d6d46850746db952c5d1931d75edcf8f53c180e07e216622b31824b",
+      "contracts": {
+        "contracts/react-native-reactive-order/ADR-TransaccionReactivaConSpringWebFluxYReactNative.md": "6333b58a52a99e46f8f7d828b76c69049e7a2349da76c3f45fceb07e5d0750b6",
+        "contracts/react-native-reactive-order/openapi.json": "63a243185d8b6c899cd453b0c0797319c2d34eb1b91cfc7803ea3070e1c8cd2d",
+        "openapi.json": "69ad4bc7a82af754f57f4c3084ad1494f87aabb1e0b7740f2611e9ca701d0408",
+        "contracts/react-native-reactive-order/asyncapi.json": "7da6c09aaa68eee2f592c69a1b89521c18ff6087982d6e5c1596fdc01f5abbd2",
+        "asyncapi.json": "da8989e45f079223c453a48fb66eed329aaa2baa76a0da133e7b21c910bc8180"
+      }
+    }
+  },
+  "artifacts": [
+    {
+      "filePath": ".dockerignore",
+      "type": "test",
+      "checksum": "e017cb79f67ece5011e46bcfeb6958bf53f64cb2159ec6bd92283a37c9e71de2",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": ".env.example",
+      "type": "config",
+      "checksum": "93e1a0a6031e63b48d240e5a183d2d741c254376944c18912bb954cb6814cfd7",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "ADR-001-architecture-decisions.md",
+      "type": "other",
+      "checksum": "6333b58a52a99e46f8f7d828b76c69049e7a2349da76c3f45fceb07e5d0750b6",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "asyncapi.json",
+      "type": "contract",
+      "checksum": "da8989e45f079223c453a48fb66eed329aaa2baa76a0da133e7b21c910bc8180",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "contracts/react-native-reactive-order/ADR-TransaccionReactivaConSpringWebFluxYReactNative.md",
+      "type": "other",
+      "checksum": "6333b58a52a99e46f8f7d828b76c69049e7a2349da76c3f45fceb07e5d0750b6",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "contracts/react-native-reactive-order/asyncapi.json",
+      "type": "contract",
+      "checksum": "7da6c09aaa68eee2f592c69a1b89521c18ff6087982d6e5c1596fdc01f5abbd2",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "contracts/react-native-reactive-order/openapi.json",
+      "type": "openapi",
+      "checksum": "63a243185d8b6c899cd453b0c0797319c2d34eb1b91cfc7803ea3070e1c8cd2d",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "docker-compose.yml",
+      "type": "config",
+      "checksum": "9515d575fe4ddf1fa785b13e9a63bd5d5e28545fb0424a1751cba7087facfcc5",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "Dockerfile",
+      "type": "test",
+      "checksum": "304e93b558413bcc5d076fa18f2af45b702b2716d09a1c4f252c1fb998ebdcd0",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "features/react_native_reactive_order.feature",
+      "type": "other",
+      "checksum": "07c9270d8d6d46850746db952c5d1931d75edcf8f53c180e07e216622b31824b",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "fixtures.ts",
+      "type": "fixture",
+      "checksum": "bf354d09c6f772a10cfde8c0fcb26df1794c9e416036bf149ea5d64ef34a6e0e",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "frontend/app.json",
+      "type": "test",
+      "checksum": "0f4af60fa03499966cba4dc7bbbbacab79d7b380be88ed5e7b617a965d6e0c62",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "frontend/App.tsx",
+      "type": "test",
+      "checksum": "087376ddc47cd0fcd783243fa4b30e3eae6abf157c0e00953678c8fcd74ee835",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "frontend/babel.config.js",
+      "type": "test",
+      "checksum": "4b96981e76f4da97464e553a3af2c16fbb8e2da6d8a1983246087ed5a0e6afa8",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "frontend/index.ts",
+      "type": "test",
+      "checksum": "3cc816440c81db1b45a7d796c25ee6b45e19cfa2d64f1f934e42b1384c82d90b",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "frontend/package.json",
+      "type": "test",
+      "checksum": "e17061b1452f14441b3520943f8c85a1180f028a7b7280b8dbeccf597a44df66",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "frontend/src/api/transaccion-reactiva-con-spring-web-flux-y-react-native-client.test.ts",
+      "type": "test",
+      "checksum": "798ada28b56ef04d995798d2e90fb5c36511afd5bf61901bf4823c4c81005867",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "frontend/src/api/transaccion-reactiva-con-spring-web-flux-y-react-native-client.ts",
+      "type": "test",
+      "checksum": "957f9e5c67de81b7170b6cbd167f46faef4e1f8c0d95fd552cdcae34d1321c40",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "frontend/src/TransaccionReactivaConSpringWebFluxYReactNativeScreen.test.tsx",
+      "type": "test",
+      "checksum": "21a6112876a7059b6b1ac77c8371bd62555ecdec1cb101f82403f9a16918a1b5",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "frontend/src/TransaccionReactivaConSpringWebFluxYReactNativeScreen.tsx",
+      "type": "test",
+      "checksum": "d3cb866fcf694c3e0004b4dfb16cc5074a578d3cae7874a446860f73b03704ea",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "frontend/tsconfig.json",
+      "type": "test",
+      "checksum": "4dba5c22c4fecce1d33edea2dda9ad15b6ed57dcc76bec449ba01ae58248f213",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "openapi.json",
+      "type": "openapi",
+      "checksum": "69ad4bc7a82af754f57f4c3084ad1494f87aabb1e0b7740f2611e9ca701d0408",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "pom.xml",
+      "type": "config",
+      "checksum": "9b84abcf3d4ec90409be229d30c562987f898e37fa696b067cb818a228ac103e",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "prompts/backend-agent.md",
+      "type": "prompt",
+      "checksum": "8eeea105a347b48cec0f8777ea94f8b6ef6f5677dd3699742700a2713ef0d4b0",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "prompts/domain-agent.md",
+      "type": "prompt",
+      "checksum": "d5238cfe03caa1514f674c49bb62baadb9e14dc23c912d2d05623c8336ee14fb",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "prompts/qa-agent.md",
+      "type": "prompt",
+      "checksum": "b548a207cf10c317fd26c10f7ab29ff1ddfaafc52931cfbff97cff03042fb0ca",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "seed.sql",
+      "type": "fixture",
+      "checksum": "8ba76b3a82c0b393017c3430227bd1805d3586ed757239fdc90cc0372e97efd1",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/api/HealthController.java",
+      "type": "test",
+      "checksum": "5ad49af407e89dcaa7a0eb90d88fdc8438c67c689045d003e35e79557c23da17",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/api/TransaccionReactivaConSpringWebFluxYReactNativeController.java",
+      "type": "test",
+      "checksum": "703aa7648f7d2299375cc1ad602e83ed8aec0065609fb497004e14ce5b88ee5f",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/Application.java",
+      "type": "test",
+      "checksum": "b938d448c97dc90d996cb58abf1ecf53a9387a17b16e82994e0d01ea60778ca8",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/auth/JwtTenantFilter.java",
+      "type": "test",
+      "checksum": "70e39c354fbb6d9a914074f3d46b3f3dc7259253be93c8827b5cea6162aef4d8",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/domain/DomainValidationException.java",
+      "type": "test",
+      "checksum": "df3c7658eae7993e6e510a182bd5f853852497999ee58f78e0a14c92ad20fdcd",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/domain/TransaccionReactivaConSpringWebFluxYReactNativeAggregate.java",
+      "type": "test",
+      "checksum": "0fa0f369760d21766ba0ed437bbc92514a44dfc0d6ac3a0b5bf575e0be09daab",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/domain/TransaccionReactivaConSpringWebFluxYReactNativeCommand.java",
+      "type": "test",
+      "checksum": "917cf3fbe20f5ec689912225c5b2954e4c07af73116d635cb2733b35d1bf2b95",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/domain/TransaccionReactivaConSpringWebFluxYReactNativeDomainEvent.java",
+      "type": "test",
+      "checksum": "dd37ba7a6ccea24d0a6bddd571f4cca7cbb593ca209d41da3869df74c6b891bc",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/domain/TransaccionReactivaConSpringWebFluxYReactNativeEventType.java",
+      "type": "test",
+      "checksum": "b5b335d8267cf5f97f1c65297d2eef94c2a6682e763d882b4ce8338ee54c8495",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/domain/TransaccionReactivaConSpringWebFluxYReactNativeState.java",
+      "type": "test",
+      "checksum": "12d06bda7eeef7c7adb8d3aa2843425bf12b306169d7d1bc672472f79c6e163c",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/infrastructure/telemetry/OpenTelemetryConfig.java",
+      "type": "test",
+      "checksum": "e52c87f1e0c740ae80f281433a96eb47db0a157290d10dc4c754c8dd20a8f6a5",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/Broker.java",
+      "type": "test",
+      "checksum": "ab4ecc9034276a86f4c391e86ea409a89260d2c538858ae2a365a997c33173d3",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/BrokerMessage.java",
+      "type": "test",
+      "checksum": "16bd8fce77717fd78e13a1d96bf5150da45cb5584b2334d41914fe43b9355b11",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/CommandService.java",
+      "type": "test",
+      "checksum": "c796425fa94dc09db65637ec24d0f00b2beb5db47ebc91bcc14dc3327f331061",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/ConnectionFactory.java",
+      "type": "test",
+      "checksum": "2f47085db63f9ff82132533ca6aa665fced26535747ad8ac136209ed5b64671e",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/EventPublisher.java",
+      "type": "test",
+      "checksum": "77d80bfab6a4b1e8840e702ea3d9ec55edd22e66e7f8b8910d031cd8ee0be253",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/EventSubscription.java",
+      "type": "test",
+      "checksum": "2b45ecd6db7c9746c4a3d019c010f04833ff6385090f92e00d1521701db3ec3d",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/InboxConsumer.java",
+      "type": "test",
+      "checksum": "6b69fc2838781b2b30d174f8bcb963cdc7c9a5bedafbf0a10bd67b68c18b7528",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/OutboxRelay.java",
+      "type": "test",
+      "checksum": "b9151abf27ae3dfc56b471b7c70303e1c39cffb09dc06192a7d46026db04a41b",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/PubSubBroker.java",
+      "type": "test",
+      "checksum": "a9beae3f63b6b3aa79747689133279c3d1dbdfb15be6aab25b3c0ea54345fc5b",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/RabbitMqBroker.java",
+      "type": "test",
+      "checksum": "736c9917123df2282f6e178c1f9bd609fc6e07fe176b7efc986eb5471720619d",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/RuntimeConfiguration.java",
+      "type": "test",
+      "checksum": "6e041449e94cb208b4c3b840cd392b68f0b38167db5aa41a84e61778d61a776d",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/SagaOrchestrator.java",
+      "type": "test",
+      "checksum": "f4139fa2d0a040e32cb5dc0b2768ae76a02a060446c24bc7f35a011c3bb15f0f",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/Schema.java",
+      "type": "test",
+      "checksum": "e010c7ff62b1ed12991b8be4c42e36ce9362a17241d4298090fd9b39b277738b",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/Telemetry.java",
+      "type": "test",
+      "checksum": "b39359db2e1820bf621f34727172fb676f4682fc61662f24588f9c6e9abf9b9f",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/Topology.java",
+      "type": "test",
+      "checksum": "6bac93ccfcf149627afb7825b4902f865e57c8328c566b71c445f99404a888df",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/main/resources/application.properties",
+      "type": "test",
+      "checksum": "14d6467491096cbbfc748eb1de4ebf0e24fb45fa12e2399c9f88f66b059c6a94",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/test/java/com/example/transactionalsystemjavareactnative/api/TransaccionReactivaConSpringWebFluxYReactNativeHttpIntegrationTest.java",
+      "type": "test",
+      "checksum": "5f3728f72787687da60915a7fa75293aed93064295282c13904021d0daff201a",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/test/java/com/example/transactionalsystemjavareactnative/bdd/RunCucumberTest.java",
+      "type": "test",
+      "checksum": "49b144c7f808ab488c7c21e0d20ef941504c2d79f086a9f83c46f19c94992fa4",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/test/java/com/example/transactionalsystemjavareactnative/bdd/TransaccionReactivaConSpringWebFluxYReactNativeSteps.java",
+      "type": "test",
+      "checksum": "a4df33375d023b72e4072a72f6c054d8e0e8cd7adbce82c5f2cc961e8e299ef4",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/test/java/com/example/transactionalsystemjavareactnative/domain/TransaccionReactivaConSpringWebFluxYReactNativeAggregateTest.java",
+      "type": "test",
+      "checksum": "3f6f72cf85d05f20ad6042c3550483ac8e7ee65451393e4e6261ddeaaf318c2e",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    },
+    {
+      "filePath": "src/test/java/com/example/transactionalsystemjavareactnative/runtime/RuntimeIntegrationTest.java",
+      "type": "test",
+      "checksum": "950615a2cc7484d29a678a6d15c2ac0ba8fb380e580ae04c94118dc56fa85e5d",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-10-25T05:33:19.053Z"
+    }
+  ],
+  "executions": []
+}

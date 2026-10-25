@@ -34,9 +34,16 @@ public class RuntimeConfiguration {
             .build();
     }
 
+    /**
+     * The kernel's tables are created before anything uses this factory (the command service, the relay):
+     * idempotent and serialized across replicas. GHK_MIGRATE=false when a migration job or another tool owns
+     * the schema (and this service connects without DDL rights).
+     */
     @Bean
-    public ConnectionFactory connectionFactory(DataSource dataSource) {
-        return dataSource::getConnection;
+    public ConnectionFactory connectionFactory(DataSource dataSource, @Value("${ghk.schema.migrate:true}") boolean migrate) throws java.sql.SQLException {
+        ConnectionFactory connections = dataSource::getConnection;
+        if (migrate) Schema.migrate(connections, "public");
+        return connections;
     }
 
     @Bean

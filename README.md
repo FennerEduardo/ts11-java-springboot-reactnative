@@ -101,7 +101,7 @@ The full list of variables and the per-cloud services are in the [deployment gui
 ## Regenerate
 
 ```bash
-npm install -g gherkin-ai@3.2.0
+npm install -g gherkin-ai@3.2.1
 ghk lint -f features/react_native_reactive_order.feature
 ghk generate -f features/react_native_reactive_order.feature
 ghk converge -f features/react_native_reactive_order.feature     # specification-to-code convergence
