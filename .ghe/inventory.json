@@ -1,6 +1,6 @@
 {
   "version": "2",
-  "cliVersion": "3.2.1",
+  "cliVersion": "3.2.2",
   "features": {
     "features/react_native_reactive_order.feature": {
       "checksum": "07c9270d8d6d46850746db952c5d1931d75edcf8f53c180e07e216622b31824b",
