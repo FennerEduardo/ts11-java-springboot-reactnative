@@ -1,6 +1,6 @@
 {
   "version": "2",
-  "cliVersion": "3.2.2",
+  "cliVersion": "3.3.0",
   "features": {
     "features/react_native_reactive_order.feature": {
       "checksum": "07c9270d8d6d46850746db952c5d1931d75edcf8f53c180e07e216622b31824b",
@@ -24,9 +24,9 @@
     {
       "filePath": ".env.example",
       "type": "config",
-      "checksum": "93e1a0a6031e63b48d240e5a183d2d741c254376944c18912bb954cb6814cfd7",
+      "checksum": "36511e58ae7633d7c2223eb7f470fda4efc98fc5a0c23f1a29918518c6f83887",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-03T13:48:54.605Z"
     },
     {
       "filePath": "ADR-001-architecture-decisions.md",
@@ -66,9 +66,9 @@
     {
       "filePath": "docker-compose.yml",
       "type": "config",
-      "checksum": "9515d575fe4ddf1fa785b13e9a63bd5d5e28545fb0424a1751cba7087facfcc5",
+      "checksum": "5b2f5b8f7a103fe9457d33989d348ac88712d4c15311be90614e63b437676e49",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-03T13:48:54.605Z"
     },
     {
       "filePath": "Dockerfile",
@@ -304,9 +304,9 @@
     {
       "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/ConnectionFactory.java",
       "type": "test",
-      "checksum": "2f47085db63f9ff82132533ca6aa665fced26535747ad8ac136209ed5b64671e",
+      "checksum": "afd5d5c6485614c0b1e2f008798cab7a8a147238374762e5dfdc3da998c61cd4",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-03T13:48:54.605Z"
     },
     {
       "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/EventPublisher.java",
