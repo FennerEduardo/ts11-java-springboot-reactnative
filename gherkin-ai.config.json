@@ -5,7 +5,7 @@
     "language": "java",
     "framework": "spring-boot",
     "orm": "hibernate",
-    "database": "mysql",
+    "database": "postgresql",
     "validation": "jakarta-validation",
     "auth": "jwt-bcrypt",
     "messaging": "none",
