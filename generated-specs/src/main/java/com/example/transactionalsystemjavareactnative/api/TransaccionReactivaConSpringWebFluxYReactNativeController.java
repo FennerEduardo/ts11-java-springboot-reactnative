@@ -45,4 +45,10 @@ public class TransaccionReactivaConSpringWebFluxYReactNativeController {
     public ResponseEntity<Map<String, String>> invalid(DomainValidationException e) {
         return ResponseEntity.unprocessableEntity().body(Map.of("detail", String.valueOf(e.getMessage())));
     }
+
+    /** A payload that breaks the feature's field rules: 422 with the fields. */
+    @ExceptionHandler(com.example.transactionalsystemjavareactnative.runtime.Contracts.FieldValidationException.class)
+    public ResponseEntity<Map<String, Object>> invalidFields(com.example.transactionalsystemjavareactnative.runtime.Contracts.FieldValidationException e) {
+        return ResponseEntity.unprocessableEntity().body(Map.of("detail", String.valueOf(e.getMessage()), "errors", e.errors()));
+    }
 }

@@ -1,6 +1,6 @@
 {
   "version": "2",
-  "cliVersion": "3.3.0",
+  "cliVersion": "3.5.0",
   "features": {
     "features/react_native_reactive_order.feature": {
       "checksum": "07c9270d8d6d46850746db952c5d1931d75edcf8f53c180e07e216622b31824b",
@@ -127,18 +127,25 @@
       "generatedAt": "2026-10-25T05:33:19.053Z"
     },
     {
+      "filePath": "frontend/src/api/auth.ts",
+      "type": "test",
+      "checksum": "a4e7c3ed3379c028c1e83060f5f2ac72105a8ef10f632436928f5d7ce64e2151",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-11-26T12:42:51.585Z"
+    },
+    {
       "filePath": "frontend/src/api/transaccion-reactiva-con-spring-web-flux-y-react-native-client.test.ts",
       "type": "test",
-      "checksum": "798ada28b56ef04d995798d2e90fb5c36511afd5bf61901bf4823c4c81005867",
+      "checksum": "f688a75414ddd0ca0cdb53101704fe39a7dd772600bf12cce6d2743273608bb0",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-26T12:42:51.585Z"
     },
     {
       "filePath": "frontend/src/api/transaccion-reactiva-con-spring-web-flux-y-react-native-client.ts",
       "type": "test",
-      "checksum": "957f9e5c67de81b7170b6cbd167f46faef4e1f8c0d95fd552cdcae34d1321c40",
+      "checksum": "50fca3efe5678412887016193dc59029e3872c186b27b253837dead1543ffbf9",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-26T12:42:51.585Z"
     },
     {
       "filePath": "frontend/src/TransaccionReactivaConSpringWebFluxYReactNativeScreen.test.tsx",
@@ -171,9 +178,9 @@
     {
       "filePath": "pom.xml",
       "type": "config",
-      "checksum": "9b84abcf3d4ec90409be229d30c562987f898e37fa696b067cb818a228ac103e",
+      "checksum": "d6193e167e15ad7d9b0e65b286d79a787d9920660fed7cec014f423bfd00fa8c",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-26T12:42:51.585Z"
     },
     {
       "filePath": "prompts/backend-agent.md",
@@ -213,9 +220,9 @@
     {
       "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/api/TransaccionReactivaConSpringWebFluxYReactNativeController.java",
       "type": "test",
-      "checksum": "703aa7648f7d2299375cc1ad602e83ed8aec0065609fb497004e14ce5b88ee5f",
+      "checksum": "c5dffd256f05ab560a84a9280d487d6663fa04645f625b52b386874a690a35ae",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-26T12:42:51.585Z"
     },
     {
       "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/Application.java",
@@ -281,6 +288,13 @@
       "generatedAt": "2026-10-25T05:33:19.053Z"
     },
     {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/AccountService.java",
+      "type": "test",
+      "checksum": "236fce5c9825edd84aa0b7059317eee2a13fd204558635704def2bba4cfce89b",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-11-26T12:42:51.585Z"
+    },
+    {
       "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/Broker.java",
       "type": "test",
       "checksum": "ab4ecc9034276a86f4c391e86ea409a89260d2c538858ae2a365a997c33173d3",
@@ -297,9 +311,9 @@
     {
       "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/CommandService.java",
       "type": "test",
-      "checksum": "c796425fa94dc09db65637ec24d0f00b2beb5db47ebc91bcc14dc3327f331061",
+      "checksum": "cdde6fadc6d65c5342810b8f9d5d4d973cc37b66b0681bf5d78ea90e501ac2f7",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-26T12:42:51.585Z"
     },
     {
       "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/ConnectionFactory.java",
@@ -307,6 +321,13 @@
       "checksum": "afd5d5c6485614c0b1e2f008798cab7a8a147238374762e5dfdc3da998c61cd4",
       "feature": "features/react_native_reactive_order.feature",
       "generatedAt": "2026-11-03T13:48:54.605Z"
+    },
+    {
+      "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/Contracts.java",
+      "type": "test",
+      "checksum": "0b8122e4f8eb499b64d55466fc8ed4e0a250ecc3a4c0d289c7f6cd3b10c2c921",
+      "feature": "features/react_native_reactive_order.feature",
+      "generatedAt": "2026-11-26T12:42:51.585Z"
     },
     {
       "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/EventPublisher.java",
@@ -367,9 +388,9 @@
     {
       "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/Schema.java",
       "type": "test",
-      "checksum": "e010c7ff62b1ed12991b8be4c42e36ce9362a17241d4298090fd9b39b277738b",
+      "checksum": "e7c750575f71bd941df88baf6d466e10794638908a41230cfda403febd72b008",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-26T12:42:51.585Z"
     },
     {
       "filePath": "src/main/java/com/example/transactionalsystemjavareactnative/runtime/Telemetry.java",
@@ -409,9 +430,9 @@
     {
       "filePath": "src/test/java/com/example/transactionalsystemjavareactnative/bdd/TransaccionReactivaConSpringWebFluxYReactNativeSteps.java",
       "type": "test",
-      "checksum": "a4df33375d023b72e4072a72f6c054d8e0e8cd7adbce82c5f2cc961e8e299ef4",
+      "checksum": "8c7c88c3588f0159f6f92c7ae532aec6504c9974cf35ab2da79991c41e7bde96",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-26T12:42:51.585Z"
     },
     {
       "filePath": "src/test/java/com/example/transactionalsystemjavareactnative/domain/TransaccionReactivaConSpringWebFluxYReactNativeAggregateTest.java",
@@ -423,9 +444,9 @@
     {
       "filePath": "src/test/java/com/example/transactionalsystemjavareactnative/runtime/RuntimeIntegrationTest.java",
       "type": "test",
-      "checksum": "950615a2cc7484d29a678a6d15c2ac0ba8fb380e580ae04c94118dc56fa85e5d",
+      "checksum": "dce6ea1f1eff965caf29efa876e2ffadad40e795be09c30529fd6679ecef27db",
       "feature": "features/react_native_reactive_order.feature",
-      "generatedAt": "2026-10-25T05:33:19.053Z"
+      "generatedAt": "2026-11-26T12:42:51.585Z"
     }
   ],
   "executions": []

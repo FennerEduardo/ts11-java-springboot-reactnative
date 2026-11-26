@@ -23,8 +23,8 @@ public class TransaccionReactivaConSpringWebFluxYReactNativeSteps {
         throw new TestAbortedException("Pending step: implement it, then remove this line");
     }
 
-    @When("el endpoint reactivo de Spring WebFlux recibe el Mono<ReactiveOrderPayload>")
-    public void whenElEndpointReactivoDeSpringWebFluxRecibeElMonoReactiveOrderPaylo() {
+    @When("el endpoint reactivo de Spring WebFlux recibe el Mono{}")
+    public void whenElEndpointReactivoDeSpringWebFluxRecibeElMonoReactiveOrderPaylo(String reactiveOrderPayload) {
         // Pending: drive the aggregate (or the HTTP API) and assert the outcome.
         throw new TestAbortedException("Pending step: implement it, then remove this line");
     }
